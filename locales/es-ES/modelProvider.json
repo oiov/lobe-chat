@@ -154,30 +154,6 @@
       "desc": "Debe incluir http(s)://, se puede dejar vacío si no se especifica localmente",
       "title": "Dirección del proxy de la interfaz"
     },
-    "setup": {
-      "cors": {
-        "description": "Debido a restricciones de seguridad del navegador, es necesario configurar Ollama para permitir el acceso entre dominios.",
-        "linux": {
-          "env": "En la sección [Service], agrega `Environment` y añade la variable de entorno OLLAMA_ORIGINS:",
-          "reboot": "Recarga systemd y reinicia Ollama.",
-          "systemd": "Edita el servicio ollama llamando a systemd:"
-        },
-        "macos": "Abre la aplicación 'Terminal', pega y ejecuta el siguiente comando, luego presiona Enter.",
-        "reboot": "Reinicia el servicio de Ollama una vez completada la ejecución.",
-        "title": "Configuración para permitir el acceso entre dominios en Ollama",
-        "windows": "En Windows, ve a 'Panel de control', edita las variables de entorno del sistema. Crea una nueva variable de entorno llamada 'OLLAMA_ORIGINS' para tu cuenta de usuario, con el valor '*', y haz clic en 'OK/Aplicar' para guardar los cambios."
-      },
-      "install": {
-        "description": "Por favor, asegúrate de que has activado Ollama. Si no has descargado Ollama, por favor visita el sitio web oficial para <1>descargarlo</1>.",
-        "docker": "Si prefieres usar Docker, Ollama también ofrece una imagen oficial en Docker. Puedes obtenerla con el siguiente comando:",
-        "linux": {
-          "command": "Instala con el siguiente comando:",
-          "manual": "O también puedes consultar la <1>Guía de instalación manual en Linux</1> para instalarlo por tu cuenta."
-        },
-        "title": "Instalación local y activación de la aplicación Ollama",
-        "windowsTab": "Windows (Versión de vista previa)"
-      }
-    },
     "title": "Ollama",
     "unlock": {
       "cancel": "Cancel Download",
@@ -198,6 +174,7 @@
       },
       "baseURL": {
         "desc": "Debe incluir http(s)://",
+        "invalid": "Por favor, introduce una URL válida",
         "placeholder": "https://tu-direccion-proxy.com/v1",
         "title": "Dirección del proxy API"
       },
@@ -243,17 +220,22 @@
           "title": "Soporte para carga de archivos"
         },
         "functionCall": {
-          "extra": "Esta configuración solo habilitará la capacidad de llamada a funciones en la aplicación, si se admite la llamada a funciones depende completamente del modelo en sí, prueba la disponibilidad de la capacidad de llamada a funciones de este modelo.",
-          "title": "Soporte para llamada a funciones"
+          "extra": "Esta configuración solo habilitará la capacidad del modelo para usar herramientas, lo que permite agregar complementos de tipo herramienta al modelo. Sin embargo, si realmente se admiten las herramientas depende completamente del modelo en sí, por favor pruebe su disponibilidad",
+          "title": "Soporte para el uso de herramientas"
         },
         "id": {
-          "extra": "Se mostrará como etiqueta del modelo",
-          "placeholder": "Por favor, introduce el id del modelo, por ejemplo, gpt-4-turbo-preview o claude-2.1",
+          "extra": "No se puede modificar después de la creación, se utilizará como id del modelo al llamar a la IA",
+          "placeholder": "Introduce el id del modelo, por ejemplo gpt-4o o claude-3.5-sonnet",
           "title": "ID del modelo"
         },
         "modalTitle": "Configuración del modelo personalizado",
+        "reasoning": {
+          "extra": "Esta configuración solo activará la capacidad de pensamiento profundo del modelo, el efecto específico depende completamente del modelo en sí, por favor, pruebe si este modelo tiene la capacidad de pensamiento profundo utilizable",
+          "title": "Soporte para pensamiento profundo"
+        },
         "tokens": {
-          "title": "Número máximo de tokens",
+          "extra": "Establecer el número máximo de tokens que el modelo puede soportar",
+          "title": "Máximo de ventana de contexto",
           "unlimited": "Sin límite"
         },
         "vision": {
@@ -273,6 +255,9 @@
     "list": {
       "addNew": "Agregar modelo",
       "disabled": "No habilitado",
+      "disabledActions": {
+        "showMore": "Mostrar todo"
+      },
       "empty": {
         "desc": "Por favor, crea un modelo personalizado o importa un modelo para comenzar a usarlo.",
         "title": "No hay modelos disponibles"
@@ -308,26 +293,6 @@
     "deleteSuccess": "Eliminación exitosa",
     "tooltip": "Actualizar configuración básica del proveedor",
     "updateSuccess": "Actualización exitosa"
-  },
-  "wenxin": {
-    "accessKey": {
-      "desc": "Introduce la Access Key de la plataforma Qianfan de Baidu",
-      "placeholder": "Access Key de Qianfan",
-      "title": "Access Key"
-    },
-    "checker": {
-      "desc": "Verifica si la AccessKey / SecretAccess está correctamente ingresada"
-    },
-    "secretKey": {
-      "desc": "Introduce la Secret Key de la plataforma Qianfan de Baidu",
-      "placeholder": "Secret Key de Qianfan",
-      "title": "Secret Key"
-    },
-    "unlock": {
-      "customRegion": "Región de servicio personalizada",
-      "description": "Introduce tu AccessKey / SecretKey para comenzar la sesión. La aplicación no registrará tu configuración de autenticación",
-      "title": "Usar información de autenticación personalizada de Wenxin Yiyan"
-    }
   },
   "zeroone": {
     "title": "01.AI Cero Uno Todo"

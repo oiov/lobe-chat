@@ -31,6 +31,10 @@ export interface ModelAbilities {
    */
   functionCall?: boolean;
   /**
+   * whether model supports reasoning
+   */
+  reasoning?: boolean;
+  /**
    *  whether model supports vision
    */
   vision?: boolean;
@@ -39,6 +43,7 @@ export interface ModelAbilities {
 const AiModelAbilitiesSchema = z.object({
   // files: z.boolean().optional(),
   functionCall: z.boolean().optional(),
+  reasoning: z.boolean().optional(),
   vision: z.boolean().optional(),
 });
 
@@ -126,20 +131,7 @@ export interface AiModelConfig {
 }
 
 export interface AIChatModelCard extends AIBaseModelCard {
-  abilities?: {
-    /**
-     * whether model supports file upload
-     */
-    files?: boolean;
-    /**
-     * whether model supports function call
-     */
-    functionCall?: boolean;
-    /**
-     *  whether model supports vision
-     */
-    vision?: boolean;
-  };
+  abilities?: ModelAbilities;
   config?: AiModelConfig;
   maxOutput?: number;
   pricing?: ChatModelPricing;
@@ -215,6 +207,10 @@ export interface AIRealtimeModelCard extends AIBaseModelCard {
      */
     functionCall?: boolean;
     /**
+     *  whether model supports reasoning
+     */
+    reasoning?: boolean;
+    /**
      *  whether model supports vision
      */
     vision?: boolean;
@@ -283,8 +279,8 @@ export const UpdateAiModelSchema = z.object({
       deploymentName: z.string().optional(),
     })
     .optional(),
-  contextWindowTokens: z.number().optional(),
-  displayName: z.string().optional(),
+  contextWindowTokens: z.number().nullable().optional(),
+  displayName: z.string().nullable().optional(),
 });
 
 export type UpdateAiModelParams = z.infer<typeof UpdateAiModelSchema>;

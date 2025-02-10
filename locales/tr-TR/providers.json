@@ -23,6 +23,9 @@
   "deepseek": {
     "description": "DeepSeek, yapay zeka teknolojisi araştırma ve uygulamalarına odaklanan bir şirkettir. En son modeli DeepSeek-V2.5, genel diyalog ve kod işleme yeteneklerini birleştirerek, insan tercihleriyle uyum, yazma görevleri ve talimat takibi gibi alanlarda önemli iyileştirmeler sağlamaktadır."
   },
+  "doubao": {
+    "description": "ByteDance tarafından geliştirilen kendi büyük modeli. ByteDance içindeki 50'den fazla iş senaryosunda uygulama doğrulaması ile, günlük trilyon seviyesinde token kullanımı ile sürekli olarak geliştirilmekte, çeşitli modalite yetenekleri sunmakta ve kaliteli model performansı ile işletmelere zengin iş deneyimleri yaratmaktadır."
+  },
   "fireworksai": {
     "description": "Fireworks AI, işlev çağrısı ve çok modlu işleme üzerine odaklanan önde gelen bir gelişmiş dil modeli hizmet sağlayıcısıdır. En son modeli Firefunction V2, Llama-3 tabanlıdır ve işlev çağrısı, diyalog ve talimat takibi için optimize edilmiştir. Görsel dil modeli FireLLaVA-13B, görüntü ve metin karışık girişi desteklemektedir. Diğer dikkat çekici modeller arasında Llama serisi ve Mixtral serisi bulunmaktadır ve etkili çok dilli talimat takibi ve üretim desteği sunmaktadır."
   },
@@ -49,6 +52,9 @@
   },
   "internlm": {
     "description": "Büyük model araştırma ve geliştirme araç zincirine adanmış bir açık kaynak organizasyonu. Tüm AI geliştiricilerine verimli ve kullanımı kolay bir açık kaynak platformu sunarak en son büyük model ve algoritma teknolojilerine erişimi kolaylaştırır."
+  },
+  "lmstudio": {
+    "description": "LM Studio, bilgisayarınızda LLM'ler geliştirmek ve denemeler yapmak için bir masaüstü uygulamasıdır."
   },
   "minimax": {
     "description": "MiniMax, 2021 yılında kurulan genel yapay zeka teknolojisi şirketidir ve kullanıcılarla birlikte akıllı çözümler yaratmayı hedeflemektedir. MiniMax, farklı modlarda genel büyük modeller geliştirmiştir. Bunlar arasında trilyon parametreli MoE metin büyük modeli, ses büyük modeli ve görüntü büyük modeli bulunmaktadır. Ayrıca, Conch AI gibi uygulamalar da sunmaktadır."

@@ -154,30 +154,6 @@
       "desc": "http(s)://を含める必要があります。ローカルで特に指定がない場合は空白のままで構いません",
       "title": "プロキシインターフェースアドレス"
     },
-    "setup": {
-      "cors": {
-        "description": "ブラウザのセキュリティ制限により、Ollama を正常に使用するにはクロスオリジンリクエストを許可する必要があります。",
-        "linux": {
-          "env": "[Service] セクションに `Environment` を追加し、OLLAMA_ORIGINS 環境変数を設定してください：",
-          "reboot": "systemd を再読み込みして Ollama を再起動します。",
-          "systemd": "systemd を呼び出して ollama サービスを編集します："
-        },
-        "macos": "「ターミナル」アプリを開き、以下のコマンドを貼り付けて実行し、Enter キーを押してください",
-        "reboot": "Ollama サービスを再起動するには、実行後に再起動してください",
-        "title": "Ollama の CORS アクセスを許可する設定",
-        "windows": "Windows 上では、「コントロールパネル」をクリックしてシステム環境変数を編集します。ユーザーアカウントに「OLLAMA_ORIGINS」という名前の環境変数を作成し、値を * に設定し、「OK/適用」をクリックして保存します"
-      },
-      "install": {
-        "description": "Ollamaを有効にしていることを確認してください。Ollamaをまだダウンロードしていない場合は、公式サイト<1>からダウンロード</1>してください。",
-        "docker": "もしDockerを使用することを好む場合、Ollamaは公式Dockerイメージも提供しています。以下のコマンドを使用して取得できます：",
-        "linux": {
-          "command": "以下のコマンドを使用してインストール：",
-          "manual": "または、<1>Linuxマニュアルインストールガイド</1>を参照して手動でインストールすることもできます"
-        },
-        "title": "ローカルでOllamaアプリをインストールして起動する",
-        "windowsTab": "Windows（プレビュー版）"
-      }
-    },
     "title": "Ollama",
     "unlock": {
       "cancel": "ダウンロードをキャンセル",
@@ -198,6 +174,7 @@
       },
       "baseURL": {
         "desc": "http(s):// を含める必要があります",
+        "invalid": "有効なURLを入力してください",
         "placeholder": "https://your-proxy-url.com/v1",
         "title": "API プロキシアドレス"
       },
@@ -243,17 +220,22 @@
           "title": "ファイルアップロードをサポート"
         },
         "functionCall": {
-          "extra": "この設定はアプリ内の関数呼び出し機能のみを有効にします。関数呼び出しのサポートはモデル自体に依存しますので、そのモデルの関数呼び出し機能の可用性を自分でテストしてください",
-          "title": "関数呼び出しをサポート"
+          "extra": "この設定は、モデルがツールを使用する機能を有効にし、モデルにツールタイプのプラグインを追加できるようにします。ただし、実際にツールを使用できるかどうかはモデル自体に依存するため、使用可能性を自分でテストしてください",
+          "title": "ツール使用のサポート"
         },
         "id": {
-          "extra": "モデルラベルとして表示されます",
-          "placeholder": "モデル ID を入力してください（例: gpt-4-turbo-preview または claude-2.1）",
+          "extra": "作成後は変更できません。AIを呼び出す際にモデルIDとして使用されます。",
+          "placeholder": "モデルIDを入力してください。例：gpt-4o または claude-3.5-sonnet",
           "title": "モデル ID"
         },
         "modalTitle": "カスタムモデル設定",
+        "reasoning": {
+          "extra": "この設定は、モデルの深い思考能力を有効にするだけです。具体的な効果はモデル自体に依存しますので、このモデルが利用可能な深い思考能力を持っているかどうかはご自身でテストしてください。",
+          "title": "深い思考をサポート"
+        },
         "tokens": {
-          "title": "最大トークン数",
+          "extra": "モデルがサポートする最大トークン数を設定する",
+          "title": "最大コンテキストウィンドウ",
           "unlimited": "無制限"
         },
         "vision": {
@@ -273,6 +255,9 @@
     "list": {
       "addNew": "モデルを追加",
       "disabled": "無効",
+      "disabledActions": {
+        "showMore": "すべて表示"
+      },
       "empty": {
         "desc": "カスタムモデルを作成するか、モデルを取得してから使用を開始してください",
         "title": "利用可能なモデルはありません"
@@ -308,26 +293,6 @@
     "deleteSuccess": "削除に成功しました",
     "tooltip": "サービスプロバイダーの基本設定を更新",
     "updateSuccess": "更新に成功しました"
-  },
-  "wenxin": {
-    "accessKey": {
-      "desc": "百度千帆プラットフォームのAccess Keyを入力してください",
-      "placeholder": "Qianfan Access Key",
-      "title": "Access Key"
-    },
-    "checker": {
-      "desc": "AccessKey / SecretAccessが正しく入力されているかテストします"
-    },
-    "secretKey": {
-      "desc": "百度千帆プラットフォームのSecret Keyを入力してください",
-      "placeholder": "Qianfan Secret Key",
-      "title": "Secret Key"
-    },
-    "unlock": {
-      "customRegion": "カスタムサービス地域",
-      "description": "AccessKey / SecretKeyを入力することでセッションを開始できます。アプリはあなたの認証設定を記録しません",
-      "title": "カスタム文心一言認証情報を使用"
-    }
   },
   "zeroone": {
     "title": "01.AI 零一万物"

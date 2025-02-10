@@ -8,6 +8,7 @@ import { default as baichuan } from './baichuan';
 import { default as bedrock } from './bedrock';
 import { default as cloudflare } from './cloudflare';
 import { default as deepseek } from './deepseek';
+import { default as doubao } from './doubao';
 import { default as fireworksai } from './fireworksai';
 import { default as giteeai } from './giteeai';
 import { default as github } from './github';
@@ -17,6 +18,7 @@ import { default as higress } from './higress';
 import { default as huggingface } from './huggingface';
 import { default as hunyuan } from './hunyuan';
 import { default as internlm } from './internlm';
+import { default as lmstudio } from './lmstudio';
 import { default as minimax } from './minimax';
 import { default as mistral } from './mistral';
 import { default as moonshot } from './moonshot';
@@ -66,6 +68,7 @@ export const LOBE_DEFAULT_MODEL_LIST = buildDefaultModelList({
   bedrock,
   cloudflare,
   deepseek,
+  doubao,
   fireworksai,
   giteeai,
   github,
@@ -75,6 +78,7 @@ export const LOBE_DEFAULT_MODEL_LIST = buildDefaultModelList({
   huggingface,
   hunyuan,
   internlm,
+  lmstudio,
   minimax,
   mistral,
   moonshot,
@@ -105,6 +109,7 @@ export { default as baichuan } from './baichuan';
 export { default as bedrock } from './bedrock';
 export { default as cloudflare } from './cloudflare';
 export { default as deepseek } from './deepseek';
+export { default as doubao } from './doubao';
 export { default as fireworksai } from './fireworksai';
 export { default as giteeai } from './giteeai';
 export { default as github } from './github';
@@ -114,6 +119,7 @@ export { default as higress } from './higress';
 export { default as huggingface } from './huggingface';
 export { default as hunyuan } from './hunyuan';
 export { default as internlm } from './internlm';
+export { default as lmstudio } from './lmstudio';
 export { default as minimax } from './minimax';
 export { default as mistral } from './mistral';
 export { default as moonshot } from './moonshot';

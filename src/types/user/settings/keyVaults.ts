@@ -6,6 +6,10 @@ export interface OpenAICompatibleKeyVault {
 export interface AzureOpenAIKeyVault {
   apiKey?: string;
   apiVersion?: string;
+  baseURL?: string;
+  /**
+   * @deprecated
+   */
   endpoint?: string;
 }
 
@@ -21,11 +25,6 @@ export interface CloudflareKeyVault {
   baseURLOrAccountID?: string;
 }
 
-export interface WenxinKeyVault {
-  accessKey?: string;
-  secretKey?: string;
-}
-
 export interface UserKeyVaults {
   ai21?: OpenAICompatibleKeyVault;
   ai360?: OpenAICompatibleKeyVault;
@@ -35,6 +34,7 @@ export interface UserKeyVaults {
   bedrock?: AWSBedrockKeyVault;
   cloudflare?: CloudflareKeyVault;
   deepseek?: OpenAICompatibleKeyVault;
+  doubao?: OpenAICompatibleKeyVault;
   fireworksai?: OpenAICompatibleKeyVault;
   giteeai?: OpenAICompatibleKeyVault;
   github?: OpenAICompatibleKeyVault;
@@ -44,6 +44,7 @@ export interface UserKeyVaults {
   huggingface?: OpenAICompatibleKeyVault;
   hunyuan?: OpenAICompatibleKeyVault;
   internlm?: OpenAICompatibleKeyVault;
+  lmstudio?: OpenAICompatibleKeyVault;
   lobehub?: any;
   minimax?: OpenAICompatibleKeyVault;
   mistral?: OpenAICompatibleKeyVault;
@@ -62,7 +63,7 @@ export interface UserKeyVaults {
   taichu?: OpenAICompatibleKeyVault;
   togetherai?: OpenAICompatibleKeyVault;
   upstage?: OpenAICompatibleKeyVault;
-  wenxin?: WenxinKeyVault;
+  wenxin?: OpenAICompatibleKeyVault;
   xai?: OpenAICompatibleKeyVault;
   zeroone?: OpenAICompatibleKeyVault;
   zhipu?: OpenAICompatibleKeyVault;

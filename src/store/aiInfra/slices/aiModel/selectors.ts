@@ -33,19 +33,38 @@ const isModelLoading = (id: string) => (s: AIProviderStoreState) =>
 const getAiModelById = (id: string) => (s: AIProviderStoreState) =>
   s.aiProviderModelList.find((i) => i.id === id);
 
-const getEnabledModelById = (id: string) => (s: AIProviderStoreState) =>
-  s.enabledAiModels?.find((i) => i.id === id);
+const getEnabledModelById = (id: string, provider: string) => (s: AIProviderStoreState) =>
+  s.enabledAiModels?.find((i) => i.id === id && (provider ? provider === i.providerId : true));
 
-const isModelSupportToolUse = (id: string) => (s: AIProviderStoreState) => {
-  const model = getEnabledModelById(id)(s);
+const isModelSupportToolUse = (id: string, provider: string) => (s: AIProviderStoreState) => {
+  const model = getEnabledModelById(id, provider)(s);
 
   return model?.abilities?.functionCall;
 };
 
-const isModelSupportVision = (id: string) => (s: AIProviderStoreState) => {
-  const model = getEnabledModelById(id)(s);
+const isModelSupportVision = (id: string, provider: string) => (s: AIProviderStoreState) => {
+  const model = getEnabledModelById(id, provider)(s);
 
   return model?.abilities?.vision;
+};
+
+const isModelSupportReasoning = (id: string, provider: string) => (s: AIProviderStoreState) => {
+  const model = getEnabledModelById(id, provider)(s);
+
+  return model?.abilities?.reasoning;
+};
+
+const isModelHasContextWindowToken =
+  (id: string, provider: string) => (s: AIProviderStoreState) => {
+    const model = getEnabledModelById(id, provider)(s);
+
+    return typeof model?.contextWindowTokens === 'number';
+  };
+
+const modelContextWindowTokens = (id: string, provider: string) => (s: AIProviderStoreState) => {
+  const model = getEnabledModelById(id, provider)(s);
+
+  return model?.contextWindowTokens;
 };
 
 export const aiModelSelectors = {
@@ -56,8 +75,11 @@ export const aiModelSelectors = {
   hasRemoteModels,
   isEmptyAiProviderModelList,
   isModelEnabled,
+  isModelHasContextWindowToken,
   isModelLoading,
+  isModelSupportReasoning,
   isModelSupportToolUse,
   isModelSupportVision,
+  modelContextWindowTokens,
   totalAiProviderModelList,
 };

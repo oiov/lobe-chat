@@ -5,15 +5,15 @@ import { z } from 'zod';
 
 import { serverDBEnv } from '@/config/db';
 import { fileEnv } from '@/config/file';
-import { DEFAULT_EMBEDDING_MODEL } from '@/const/settings';
+import { DEFAULT_FILE_EMBEDDING_MODEL_ITEM } from '@/const/settings/knowledge';
 import { NewChunkItem, NewEmbeddingsItem } from '@/database/schemas';
 import { serverDB } from '@/database/server';
 import { ASYNC_TASK_TIMEOUT, AsyncTaskModel } from '@/database/server/models/asyncTask';
 import { ChunkModel } from '@/database/server/models/chunk';
 import { EmbeddingModel } from '@/database/server/models/embedding';
 import { FileModel } from '@/database/server/models/file';
-import { ModelProvider } from '@/libs/agent-runtime';
 import { asyncAuthedProcedure, asyncRouter as router } from '@/libs/trpc/async';
+import { getServerDefaultFilesConfig } from '@/server/globalConfig';
 import { initAgentRuntimeWithUserPayload } from '@/server/modules/AgentRuntime';
 import { S3 } from '@/server/modules/S3';
 import { ChunkService } from '@/server/services/chunk';
@@ -24,6 +24,7 @@ import {
   IAsyncTaskError,
 } from '@/types/asyncTask';
 import { safeParseJSON } from '@/utils/safeParseJSON';
+import { sanitizeUTF8 } from '@/utils/sanitizeUTF8';
 
 const fileProcedure = asyncAuthedProcedure.use(async (opts) => {
   const { ctx } = opts;
@@ -44,7 +45,6 @@ export const fileRouter = router({
     .input(
       z.object({
         fileId: z.string(),
-        model: z.string().default(DEFAULT_EMBEDDING_MODEL),
         taskId: z.string(),
       }),
     )
@@ -56,6 +56,9 @@ export const fileRouter = router({
       }
 
       const asyncTask = await ctx.asyncTaskModel.findById(input.taskId);
+
+      const { model, provider } =
+        getServerDefaultFilesConfig().embeddingModel || DEFAULT_FILE_EMBEDDING_MODEL_ITEM;
 
       if (!asyncTask) throw new TRPCError({ code: 'BAD_REQUEST', message: 'Async Task not found' });
 
@@ -84,39 +87,32 @@ export const fileRouter = router({
 
           const chunks = await ctx.chunkModel.getChunksTextByFileId(input.fileId);
           const requestArray = chunk(chunks, CHUNK_SIZE);
-
           try {
             await pMap(
               requestArray,
               async (chunks, index) => {
                 const agentRuntime = await initAgentRuntimeWithUserPayload(
-                  ModelProvider.OpenAI,
+                  provider,
                   ctx.jwtPayload,
                 );
 
-                const number = index + 1;
-                console.log(`执行第 ${number} 个任务`);
-
-                console.time(`任务[${number}]: embeddings`);
+                console.log(`run embedding task ${index + 1}`);
 
                 const embeddings = await agentRuntime.embeddings({
                   dimensions: 1024,
                   input: chunks.map((c) => c.text),
-                  model: input.model,
+                  model,
                 });
-                console.timeEnd(`任务[${number}]: embeddings`);
 
                 const items: NewEmbeddingsItem[] =
                   embeddings?.map((e, idx) => ({
                     chunkId: chunks[idx].id,
                     embeddings: e,
                     fileId: input.fileId,
-                    model: input.model,
+                    model,
                   })) || [];
 
-                console.time(`任务[${number}]: insert db`);
                 await ctx.embeddingModel.bulkCreate(items);
-                console.timeEnd(`任务[${number}]: insert db`);
               },
               { concurrency: CONCURRENCY },
             );
@@ -215,7 +211,11 @@ export const fileRouter = router({
 
           // after finish partition, we need to filter out some elements
           const chunks = chunkResult.chunks.map(
-            (item): NewChunkItem => ({ ...item, userId: ctx.userId }),
+            ({ text, ...item }): NewChunkItem => ({
+              ...item,
+              text: text ? sanitizeUTF8(text) : '',
+              userId: ctx.userId,
+            }),
           );
 
           const duration = Date.now() - startAt;

@@ -23,6 +23,9 @@
   "deepseek": {
     "description": "DeepSeek es una empresa centrada en la investigación y aplicación de tecnologías de inteligencia artificial, cuyo modelo más reciente, DeepSeek-V2.5, combina capacidades de diálogo general y procesamiento de código, logrando mejoras significativas en alineación con preferencias humanas, tareas de escritura y seguimiento de instrucciones."
   },
+  "doubao": {
+    "description": "Un modelo grande desarrollado internamente por ByteDance. Validado a través de más de 50 escenarios de negocio internos, con un uso diario de tokens en billones que se perfecciona continuamente, ofrece múltiples capacidades modales y crea experiencias comerciales ricas para las empresas con un rendimiento de modelo de alta calidad."
+  },
   "fireworksai": {
     "description": "Fireworks AI es un proveedor líder de servicios de modelos de lenguaje avanzados, enfocado en la llamada de funciones y el procesamiento multimodal. Su modelo más reciente, Firefunction V2, basado en Llama-3, está optimizado para llamadas de funciones, diálogos y seguimiento de instrucciones. El modelo de lenguaje visual FireLLaVA-13B admite entradas mixtas de imágenes y texto. Otros modelos notables incluyen la serie Llama y la serie Mixtral, que ofrecen un soporte eficiente para el seguimiento y generación de instrucciones multilingües."
   },
@@ -49,6 +52,9 @@
   },
   "internlm": {
     "description": "Organización de código abierto dedicada a la investigación y desarrollo de herramientas para modelos grandes. Proporciona a todos los desarrolladores de IA una plataforma de código abierto eficiente y fácil de usar, permitiendo el acceso a las tecnologías y algoritmos más avanzados."
+  },
+  "lmstudio": {
+    "description": "LM Studio es una aplicación de escritorio para desarrollar y experimentar con LLMs en su computadora."
   },
   "minimax": {
     "description": "MiniMax es una empresa de tecnología de inteligencia artificial general fundada en 2021, dedicada a co-crear inteligencia con los usuarios. MiniMax ha desarrollado de forma independiente modelos de gran tamaño de diferentes modalidades, que incluyen un modelo de texto MoE de un billón de parámetros, un modelo de voz y un modelo de imagen. También ha lanzado aplicaciones como Conch AI."

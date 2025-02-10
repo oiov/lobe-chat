@@ -23,6 +23,9 @@
   "deepseek": {
     "description": "DeepSeek là một công ty tập trung vào nghiên cứu và ứng dụng công nghệ trí tuệ nhân tạo, mô hình mới nhất của họ, DeepSeek-V2.5, kết hợp khả năng đối thoại chung và xử lý mã, đồng thời đạt được sự cải thiện đáng kể trong việc căn chỉnh sở thích của con người, nhiệm vụ viết và tuân theo chỉ dẫn."
   },
+  "doubao": {
+    "description": "Mô hình lớn tự phát triển do ByteDance phát triển. Được xác thực qua hơn 50 tình huống kinh doanh nội bộ của ByteDance, với việc sử dụng hàng nghìn tỷ token mỗi ngày để liên tục cải tiến, cung cấp nhiều khả năng đa phương thức, tạo ra trải nghiệm kinh doanh phong phú cho doanh nghiệp với hiệu quả mô hình chất lượng cao."
+  },
   "fireworksai": {
     "description": "Fireworks AI là nhà cung cấp dịch vụ mô hình ngôn ngữ cao cấp hàng đầu, tập trung vào gọi chức năng và xử lý đa phương thức. Mô hình mới nhất của họ, Firefunction V2, dựa trên Llama-3, được tối ưu hóa cho gọi chức năng, đối thoại và tuân theo chỉ dẫn. Mô hình ngôn ngữ hình ảnh FireLLaVA-13B hỗ trợ đầu vào hỗn hợp hình ảnh và văn bản. Các mô hình đáng chú ý khác bao gồm dòng Llama và dòng Mixtral, cung cấp hỗ trợ cho việc tuân theo và tạo ra chỉ dẫn đa ngôn ngữ hiệu quả."
   },
@@ -49,6 +52,9 @@
   },
   "internlm": {
     "description": "Tổ chức mã nguồn mở chuyên nghiên cứu và phát triển công cụ cho mô hình lớn. Cung cấp nền tảng mã nguồn mở hiệu quả, dễ sử dụng cho tất cả các nhà phát triển AI, giúp tiếp cận công nghệ mô hình lớn và thuật toán tiên tiến nhất."
+  },
+  "lmstudio": {
+    "description": "LM Studio là một ứng dụng máy tính để phát triển và thử nghiệm các LLM trên máy tính của bạn."
   },
   "minimax": {
     "description": "MiniMax là công ty công nghệ trí tuệ nhân tạo tổng quát được thành lập vào năm 2021, cam kết cùng người dùng sáng tạo trí thông minh. MiniMax đã tự phát triển nhiều mô hình lớn đa phương thức, bao gồm mô hình văn bản MoE với một triệu tham số, mô hình giọng nói và mô hình hình ảnh. Họ cũng đã phát hành các ứng dụng như AI Hải Lý."
