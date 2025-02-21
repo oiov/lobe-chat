@@ -15,6 +15,10 @@ export const getLLMConfig = () => {
       AZURE_API_VERSION: z.string().optional(),
       AZURE_ENDPOINT: z.string().optional(),
 
+      ENABLED_AZUREAI: z.boolean(),
+      AZUREAI_ENDPOINT: z.string().optional(),
+      AZUREAI_ENDPOINT_KEY: z.string().optional(),
+
       ENABLED_ZHIPU: z.boolean(),
       ZHIPU_API_KEY: z.string().optional(),
 
@@ -68,6 +72,9 @@ export const getLLMConfig = () => {
 
       ENABLED_OLLAMA: z.boolean(),
 
+      ENABLED_VLLM: z.boolean(),
+      VLLM_API_KEY: z.string().optional(),
+
       ENABLED_QWEN: z.boolean(),
       QWEN_API_KEY: z.string().optional(),
 
@@ -76,6 +83,9 @@ export const getLLMConfig = () => {
 
       ENABLED_NOVITA: z.boolean(),
       NOVITA_API_KEY: z.string().optional(),
+
+      ENABLED_NVIDIA: z.boolean(),
+      NVIDIA_API_KEY: z.string().optional(),
 
       ENABLED_BAICHUAN: z.boolean(),
       BAICHUAN_API_KEY: z.string().optional(),
@@ -125,6 +135,18 @@ export const getLLMConfig = () => {
 
       ENABLED_DOUBAO: z.boolean(),
       DOUBAO_API_KEY: z.string().optional(),
+
+      ENABLED_VOLCENGINE: z.boolean(),
+      VOLCENGINE_API_KEY: z.string().optional(),
+
+      ENABLED_TENCENT_CLOUD: z.boolean(),
+      TENCENT_CLOUD_API_KEY: z.string().optional(),
+
+      ENABLED_JINA: z.boolean(),
+      JINA_API_KEY: z.string().optional(),
+
+      ENABLED_SAMBANOVA: z.boolean(),
+      SAMBANOVA_API_KEY: z.string().optional(),
     },
     runtimeEnv: {
       API_KEY_SELECT_MODE: process.env.API_KEY_SELECT_MODE,
@@ -137,6 +159,10 @@ export const getLLMConfig = () => {
       AZURE_API_VERSION: process.env.AZURE_API_VERSION,
       AZURE_ENDPOINT: process.env.AZURE_ENDPOINT,
 
+      ENABLED_AZUREAI: !!process.env.AZUREAI_ENDPOINT_KEY,
+      AZUREAI_ENDPOINT_KEY: process.env.AZUREAI_ENDPOINT_KEY,
+      AZUREAI_ENDPOINT: process.env.AZUREAI_ENDPOINT,
+
       ENABLED_ZHIPU: !!process.env.ZHIPU_API_KEY,
       ZHIPU_API_KEY: process.env.ZHIPU_API_KEY,
 
@@ -145,6 +171,9 @@ export const getLLMConfig = () => {
 
       ENABLED_GOOGLE: !!process.env.GOOGLE_API_KEY,
       GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+
+      ENABLED_VOLCENGINE: !!process.env.VOLCENGINE_API_KEY,
+      VOLCENGINE_API_KEY: process.env.VOLCENGINE_API_KEY,
 
       ENABLED_PERPLEXITY: !!process.env.PERPLEXITY_API_KEY,
       PERPLEXITY_API_KEY: process.env.PERPLEXITY_API_KEY,
@@ -190,6 +219,9 @@ export const getLLMConfig = () => {
 
       ENABLED_OLLAMA: process.env.ENABLED_OLLAMA !== '0',
 
+      ENABLED_VLLM: !!process.env.VLLM_API_KEY,
+      VLLM_API_KEY: process.env.VLLM_API_KEY,
+
       ENABLED_QWEN: !!process.env.QWEN_API_KEY,
       QWEN_API_KEY: process.env.QWEN_API_KEY,
 
@@ -198,6 +230,9 @@ export const getLLMConfig = () => {
 
       ENABLED_NOVITA: !!process.env.NOVITA_API_KEY,
       NOVITA_API_KEY: process.env.NOVITA_API_KEY,
+
+      ENABLED_NVIDIA: !!process.env.NVIDIA_API_KEY,
+      NVIDIA_API_KEY: process.env.NVIDIA_API_KEY,
 
       ENABLED_BAICHUAN: !!process.env.BAICHUAN_API_KEY,
       BAICHUAN_API_KEY: process.env.BAICHUAN_API_KEY,
@@ -248,6 +283,15 @@ export const getLLMConfig = () => {
 
       ENABLED_DOUBAO: !!process.env.DOUBAO_API_KEY,
       DOUBAO_API_KEY: process.env.DOUBAO_API_KEY,
+
+      ENABLED_TENCENT_CLOUD: !!process.env.TENCENT_CLOUD_API_KEY,
+      TENCENT_CLOUD_API_KEY: process.env.TENCENT_CLOUD_API_KEY,
+
+      ENABLED_JINA: !!process.env.JINA_API_KEY,
+      JINA_API_KEY: process.env.JINA_API_KEY,
+
+      ENABLED_SAMBANOVA: !!process.env.SAMBANOVA_API_KEY,
+      SAMBANOVA_API_KEY: process.env.SAMBANOVA_API_KEY,
     },
   });
 };

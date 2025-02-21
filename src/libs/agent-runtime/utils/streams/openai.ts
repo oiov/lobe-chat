@@ -1,15 +1,15 @@
 import OpenAI from 'openai';
 import type { Stream } from 'openai/streaming';
 
-import { ChatMessageError } from '@/types/message';
+import { ChatMessageError, CitationItem } from '@/types/message';
 
 import { AgentRuntimeErrorType, ILobeAgentRuntimeErrorType } from '../../error';
 import { ChatStreamCallbacks } from '../../types';
 import {
   FIRST_CHUNK_ERROR_KEY,
+  StreamContext,
   StreamProtocolChunk,
   StreamProtocolToolCallChunk,
-  StreamStack,
   StreamToolCallChunkData,
   convertIterableToStream,
   createCallbacksTransformer,
@@ -20,8 +20,8 @@ import {
 
 export const transformOpenAIStream = (
   chunk: OpenAI.ChatCompletionChunk,
-  stack?: StreamStack,
-): StreamProtocolChunk => {
+  streamContext: StreamContext,
+): StreamProtocolChunk | StreamProtocolChunk[] => {
   // handle the first chunk error
   if (FIRST_CHUNK_ERROR_KEY in chunk) {
     delete chunk[FIRST_CHUNK_ERROR_KEY];
@@ -48,8 +48,8 @@ export const transformOpenAIStream = (
     if (typeof item.delta?.tool_calls === 'object' && item.delta.tool_calls?.length > 0) {
       return {
         data: item.delta.tool_calls.map((value, index): StreamToolCallChunkData => {
-          if (stack && !stack.tool) {
-            stack.tool = { id: value.id!, index: value.index, name: value.function!.name! };
+          if (streamContext && !streamContext.tool) {
+            streamContext.tool = { id: value.id!, index: value.index, name: value.function!.name! };
           }
 
           return {
@@ -57,7 +57,10 @@ export const transformOpenAIStream = (
               arguments: value.function?.arguments ?? '{}',
               name: value.function?.name ?? null,
             },
-            id: value.id || stack?.tool?.id || generateToolCallId(index, value.function?.name),
+            id:
+              value.id ||
+              streamContext?.tool?.id ||
+              generateToolCallId(index, value.function?.name),
 
             // mistral's tool calling don't have index and function field, it's data like:
             // [{"id":"xbhnmTtY7","function":{"name":"lobe-image-designer____text2image____builtin","arguments":"{\"prompts\": [\"A photo of a small, fluffy dog with a playful expression and wagging tail.\", \"A watercolor painting of a small, energetic dog with a glossy coat and bright eyes.\", \"A vector illustration of a small, adorable dog with a short snout and perky ears.\", \"A drawing of a small, scruffy dog with a mischievous grin and a wagging tail.\"], \"quality\": \"standard\", \"seeds\": [123456, 654321, 111222, 333444], \"size\": \"1024x1024\", \"style\": \"vivid\"}"}}]
@@ -87,20 +90,50 @@ export const transformOpenAIStream = (
       return { data: item.finish_reason, id: chunk.id, type: 'stop' };
     }
 
-    // DeepSeek reasoner will put thinking in the reasoning_content field
-    // litellm will not set content = null when processing reasoning content
-    // en: siliconflow has encountered a situation where both content and reasoning_content are present, so the parsing order go ahead
-    // refs: https://github.com/lobehub/lobe-chat/issues/5681
-    if (
-      item.delta &&
-      'reasoning_content' in item.delta &&
-      typeof item.delta.reasoning_content === 'string'
-    ) {
-      return { data: item.delta.reasoning_content, id: chunk.id, type: 'reasoning' };
-    }
+    if (item.delta) {
+      let reasoning_content = (() => {
+        if ('reasoning_content' in item.delta) return item.delta.reasoning_content;
+        if ('reasoning' in item.delta) return item.delta.reasoning;
+        return null;
+      })();
 
-    if (typeof item.delta?.content === 'string') {
-      return { data: item.delta.content, id: chunk.id, type: 'text' };
+      let content = 'content' in item.delta ? item.delta.content : null;
+
+      // DeepSeek reasoner will put thinking in the reasoning_content field
+      // litellm and not set content = null when processing reasoning content
+      // en: siliconflow and aliyun bailian has encountered a situation where both content and reasoning_content are present, so need to handle it
+      // refs: https://github.com/lobehub/lobe-chat/issues/5681 (siliconflow)
+      // refs: https://github.com/lobehub/lobe-chat/issues/5956 (aliyun bailian)
+      if (typeof content === 'string' && typeof reasoning_content === 'string') {
+        if (content === '' && reasoning_content === '') {
+          content = null;
+        } else if (reasoning_content === '') {
+          reasoning_content = null;
+        }
+      }
+
+      if (typeof reasoning_content === 'string') {
+        return { data: reasoning_content, id: chunk.id, type: 'reasoning' };
+      }
+
+      if (typeof content === 'string') {
+        // in Perplexity api, the citation is in every chunk, but we only need to return it once
+
+        if ('citations' in chunk && !streamContext?.returnedPplxCitation) {
+          streamContext.returnedPplxCitation = true;
+
+          const citations = (chunk.citations as any[]).map((item) =>
+            typeof item === 'string' ? ({ title: item, url: item } as CitationItem) : item,
+          );
+
+          return [
+            { data: citations, id: chunk.id, type: 'citations' },
+            { data: content, id: chunk.id, type: 'text' },
+          ];
+        }
+
+        return { data: content, id: chunk.id, type: 'text' };
+      }
     }
 
     // 无内容情况
@@ -149,7 +182,7 @@ export const OpenAIStream = (
   stream: Stream<OpenAI.ChatCompletionChunk> | ReadableStream,
   { callbacks, provider, bizErrorTypeTransformer }: OpenAIStreamOptions = {},
 ) => {
-  const streamStack: StreamStack = { id: '' };
+  const streamStack: StreamContext = { id: '' };
 
   const readableStream =
     stream instanceof ReadableStream ? stream : convertIterableToStream(stream);
