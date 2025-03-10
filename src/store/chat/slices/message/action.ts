@@ -15,7 +15,9 @@ import { messageMapKey } from '@/store/chat/utils/messageMapKey';
 import {
   ChatMessage,
   ChatMessageError,
+  ChatMessagePluginError,
   CreateMessageParams,
+  MessageMetadata,
   MessageToolCall,
   ModelReasoning,
 } from '@/types/message';
@@ -78,12 +80,19 @@ export interface ChatMessageAction {
       toolCalls?: MessageToolCall[];
       reasoning?: ModelReasoning;
       search?: GroundingSearch;
+      metadata?: MessageMetadata;
+      model?: string;
+      provider?: string;
     },
   ) => Promise<void>;
   /**
    * update the message error with optimistic update
    */
   internal_updateMessageError: (id: string, error: ChatMessageError | null) => Promise<void>;
+  internal_updateMessagePluginError: (
+    id: string,
+    error: ChatMessagePluginError | null,
+  ) => Promise<void>;
   /**
    * create a message with optimistic update
    */
@@ -276,6 +285,12 @@ export const chatMessage: StateCreator<
     await messageService.updateMessage(id, { error });
     await get().refreshMessages();
   },
+
+  internal_updateMessagePluginError: async (id, error) => {
+    await messageService.updateMessagePluginError(id, error);
+    await get().refreshMessages();
+  },
+
   internal_updateMessageContent: async (id, content, extra) => {
     const { internal_dispatchMessage, refreshMessages, internal_transformToolCalls } = get();
 
@@ -289,7 +304,11 @@ export const chatMessage: StateCreator<
         value: { tools: internal_transformToolCalls(extra?.toolCalls) },
       });
     } else {
-      internal_dispatchMessage({ id, type: 'updateMessage', value: { content } });
+      internal_dispatchMessage({
+        id,
+        type: 'updateMessage',
+        value: { content },
+      });
     }
 
     await messageService.updateMessage(id, {
@@ -297,6 +316,9 @@ export const chatMessage: StateCreator<
       tools: extra?.toolCalls ? internal_transformToolCalls(extra?.toolCalls) : undefined,
       reasoning: extra?.reasoning,
       search: extra?.search,
+      metadata: extra?.metadata,
+      model: extra?.model,
+      provider: extra?.provider,
     });
     await refreshMessages();
   },
@@ -369,7 +391,7 @@ export const chatMessage: StateCreator<
         messageLoadingIds: toggleBooleanList(get().messageLoadingIds, id, loading),
       },
       false,
-      'internal_toggleMessageLoading',
+      `internal_toggleMessageLoading/${loading ? 'start' : 'end'}`,
     );
   },
   internal_toggleLoadingArrays: (key, loading, id, action) => {
